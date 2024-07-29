@@ -2,8 +2,10 @@
 <html>
   <head>
     <script src="jspsych-6.1.0/jspsych.js"></script>
+    <script src="jspsych-6.1.0/plugins/jspsych-survey-html-form.js"></script>
     <script src="jspsych-6.1.0/plugins/jspsych-html-keyboard-response.js"></script>
     <script src="jspsych-6.1.0/plugins/jspsych-html-button-response.js"></script>
+    
     <link rel="stylesheet" href="jspsych-6.1.0/css/jspsych.css">
   </head>
   <body>
@@ -17,8 +19,14 @@
     var how_many_back = 2;  /* back次数 */
 
     var sequence_length = 22;  /* 实验序列长度，即任务总长度 */
-
-    /* Instructions */
+    
+    var form_trial = {
+    type: 'survey-html-form',
+    preamble: '<p> Please input your information </b> </p>',
+    html: '<p>  order： <input name="first" type="text" />, trial：<input name="second" type="text" /> </p>'
+    }
+    timeline.push(form_trial);
+    
     /* 实验导入语1 */
     var instructions_1 = {
       type: 'html-button-response',
@@ -121,6 +129,7 @@
       type: 'html-keyboard-response',
       stimulus: function(){
         var test_trials = jsPsych.data.get().filter({phase: 'test'}).last(sequence_length-2); /* 获取数据 */
+        jsPsych.data.get().localSave('csv','mydata.csv'); /* 获取数据 */
         var n_match = test_trials.filter({match: true}).count(); /* 匹配试次数 */
         var n_nonmatch = test_trials.filter({match: false}).count(); /* 不匹配试次数 */
         var n_correct = test_trials.filter({match: true, correct: true}).count(); /* 正确判断匹配次数 */
@@ -133,7 +142,7 @@
         
         return html;
       },
-      choices: jsPsych.NO_KEYS /* 不需要键盘响应 */
+      choices: jsPsych.NO_KEYS, /* 不需要键盘响应 */
     }
     timeline.push(feedback);
 
