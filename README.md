@@ -1,4 +1,4 @@
-# 这是华南师范大学用户研究大作业
+# 这是用户研究大作业
 # 2-back-experiment
 ## 实验代码\主程序
 2-back-experiment.html
