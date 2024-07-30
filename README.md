@@ -29,6 +29,7 @@ jspsych教程.md
 <img width="818" alt="3" src="https://github.com/user-attachments/assets/e4e9cc4c-cb5f-4e79-8129-9f25675d45a6">
 <img width="818" alt="4" src="https://github.com/user-attachments/assets/4f8afb15-b6bc-4d5c-96f5-3efa2919a7c4">
 <img width="818" alt="5" src="https://github.com/user-attachments/assets/9e02a76c-b8f5-47b5-812e-abed892c4505">
+
 ### 设置N_back实验
 <img width="818" alt="1" src="https://github.com/user-attachments/assets/5f4ce2e0-ee0f-4e59-b257-3ce1c4a3cc3c">
 
