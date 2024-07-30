@@ -20,6 +20,7 @@
   </head>
   <body>
     <script src="jspsych-6.1.0/jspsych.js"></script>
+    <script src="jspsych-6.1.0/plugins/jspsych-survey-html-form.js"></script>
     <script src="jspsych-6.1.0/plugins/jspsych-html-keyboard-response.js"></script>
     <script src="jspsych-6.1.0/plugins/jspsych-html-button-response.js"></script>
     <link rel="stylesheet" href="jspsych-6.1.0/css/jspsych.css">
@@ -32,16 +33,13 @@
 - `<link>` 标签用于引入 JsPsych 的样式表。
 
 ### 4. 初始化实验变量
-
 在 `<body>` 标签的 `<script>` 标签内，定义实验所需的变量：
 
 ```javascript
 <script>
   var timeline = [];
-
   var n_back_set = ['Z', 'X', 'C', 'V', 'B', 'N'];
   var sequence = [];
-
   var how_many_back = 2;
   var sequence_length = 22;
 </script>
@@ -54,8 +52,60 @@
 - `how_many_back`：定义了 n-back 任务的难度（这里是 2-back）。
 - `sequence_length`：定义了任务的总长度（这里是 22 个字母）。
 
-### 5. 添加实验指导语
 
+### 5. 实验长度设置
+在 `timeline` 数组中添加设置功能：
+
+```javascript
+    var n_back_trail = { 
+      type: 'survey-html-form',
+      preamble: '<p> Please input the value of N_back </b> </p>',
+      html: 
+       '<p> N of back:<input type="number" id="nback" name="nback"> </p>',
+      data:{
+        phase: 'n_back',
+      },
+      on_finish: function(){
+        var info_trials = jsPsych.data.get().values(); 
+        var info1 = info_trials[0].responses;  
+        how_many_back = info1[10]
+      }
+      
+    }
+    timeline.push(n_back_trail);
+```
+
+**说明：**
+- `type: 'survey-html-form'`：指定这是一个字符串输入试验。
+- `preamble`：呈现在页面顶端、所有问题上方的HTML字符串。
+- `html`：包含了所有input元素的HTML字符串。
+- `data`：存储试验数据。
+- `on_finish`：定义试验结束后的数据处理逻辑。
+
+### 6. 被试信息输入
+在 `timeline` 数组中添加信息输入功能：
+
+```javascript
+  var info_trial = {
+      type: 'survey-html-form',
+      preamble: '<p> Please input your information </b> </p>',
+      html: 
+       '<p> Order:</label><input type="text" id="order" name="order"> (eg：sub001) </p>' +
+       '<p> Trail:</label><input type="text" id="trail" name="trail"> (eg：tra001) </p>',
+      data:{
+        phase: 'info', 
+      },
+    }
+    timeline.push(info_trial);
+```
+
+**说明：**
+- `type: 'survey-html-form'`：指定这是一个字符串输入试验。
+- `preamble`：呈现在页面顶端、所有问题上方的HTML字符串。
+- `html`：包含了所有input元素的HTML字符串。
+- `data`：存储试验数据。
+
+### 7. 添加实验指导语
 在 `timeline` 数组中添加指导语步骤：
 
 ```javascript
@@ -99,8 +149,7 @@ timeline.push(instructions_3);
 - `choices`：定义参与者可以选择的按钮。
 - `post_trial_gap`：定义试验结束后的间隔时间。
 
-### 6. 定义 n-back 任务试验
-
+### 8. 定义 n-back 任务试验
 在 `timeline` 数组中添加 n-back 任务试验：
 
 ```javascript
@@ -170,8 +219,7 @@ timeline.push(n_back_sequence);
 - `data`：存储试验数据。
 - `on_finish`：定义试验结束后的数据处理逻辑。
 
-### 7. 添加实验反馈
-
+### 9. 添加实验反馈
 在 `timeline` 数组中添加反馈步骤：
 
 ```javascript
@@ -183,7 +231,10 @@ var feedback = {
     var n_nonmatch = test_trials.filter({match: false}).count();
     var n_correct = test_trials.filter({match: true, correct: true}).count();
     var false_alarms = test_trials.filter({match: false, correct: false}).count();
-
+    var info_trials = jsPsych.data.get().values(); 
+    var info1 = info_trials[1].responses;
+    var savename = info1.substring(10, 16) + '_' + info1.substring(27, 33) + '_' +how_many_back + '.csv'; 
+    jsPsych.data.get().localSave('csv',savename); 
     var html = "<div style='width:800px;'>"+
       "<p>All done!</p>"+
       "<p>You correctly identified "+n_correct+" of the "+n_match+" matching items.</p>"+
@@ -200,8 +251,7 @@ timeline.push(feedback);
 - `stimulus`：定义显示给参与者的反馈信息。
 - `choices: jsPsych.NO_KEYS`：指定这个试验不需要键盘响应。
 
-### 8. 初始化 JsPsych 实验
-
+### 10. 初始化 JsPsych 实验
 在脚本的最后，初始化 JsPsych 实验：
 
 ```javascript
@@ -209,15 +259,13 @@ jsPsych.init({
   timeline: timeline
 })
 ```
-
 **说明：**
 - `jsPsych.init`：初始化 JsPsych 实验，传入 `timeline` 数组。
 
-### 9. 运行实验
-
+### 11. 运行实验
 保存你的 HTML 文件，并在浏览器中打开它。你将看到一个 n-back 任务的实验，参与者需要按照指导语进行操作。
 
-### 10. 显示结果
+### 12. 显示结果
 
 JsPsych 会在实验结束后显示结果。
 
