@@ -1,14 +1,26 @@
-# 2-back-experiment
+#更新说明
+## 第一次上传
+完成基本的2-back实验功能
+## 第二次上传
+1.实现实验数据下载
+2.用户信息输入
+## 第三次上传
+1.实现n-back实验功能，可自行选择1~9 back实验
+2.实现保存数据名称命名格式sub00x_tra00x_n,代表第x被试第x次n_back实验
+
+
+# n-back-experiment
 ## 实验代码\主程序
-2-back-experiment.html
+n-back-experiment.html
 ## css布局文件
 jspsych-6.1.0\css\jspsych.css
 ## plugin文件
 ### jspsych：
 jspsych-6.1.0\jspsych.js  
-### 按键与按钮插件：
-jspsych-6.1.0\plugins\jspsych-html-keyboard-response.js
-jspsych-6.1.0\plugins\jspsych-html-button-response.js
+### 插件：
+jspsych-6.1.0\plugins\jspsych-survey-html-form.js <br>
+jspsych-6.1.0\plugins\jspsych-html-keyboard-response.js <br>
+jspsych-6.1.0\plugins\jspsych-html-button-response.js <br>
 ## 教程文档
 jspsych教程.md
 ## 运行图片
