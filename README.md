@@ -8,7 +8,7 @@
 ## 第三次上传
 1.实现n-back实验功能，可自行选择1~9 back实验 <br>
 2.实现保存数据名称命名格式sub00x_tra00x_n,代表第x被试第x次n_back实验
-
+3.更新说明文档
 
 # n-back-experiment
 ## 实验代码\主程序
